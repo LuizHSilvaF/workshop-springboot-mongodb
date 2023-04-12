@@ -6,10 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.luiz.workshopmongo.domain.User;
 import com.luiz.workshopmongo.dto.UserDTO;
 import com.luiz.workshopmongo.repository.UserRepository;
 import com.luiz.workshopmongo.service.exception.ObjectNotFoundException;
+
+
 
 @Service
 public class UserService {
@@ -35,6 +38,21 @@ public class UserService {
 		repo.deleteById(id);
 	}
 	
+	public User update(User obj) {
+		try {
+			User newObj = repo.getReferenceById(obj.getId());
+			updateData(newObj, obj);
+			return repo.save(newObj);}
+			catch(RuntimeException e) {
+				throw new ObjectNotFoundException("Not found object");
+			}
+	}
+	
+	private void updateData(User newObj, User obj) {
+		newObj.setName(obj.getName());
+		newObj.setEmail(obj.getEmail());
+	}
+
 	public User fromDTO(UserDTO objDto) {
 		return new User(objDto.getId(), objDto.getName(), objDto.getEmail());
 	}
