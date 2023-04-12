@@ -9,6 +9,5 @@ import com.luiz.workshopmongo.domain.Post;
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, String>{
-
 }
 
